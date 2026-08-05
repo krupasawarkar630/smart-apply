@@ -28,7 +28,7 @@ export const Route = createFileRoute("/jobs")({
       { property: "og:description", content: "Live remote job listings ranked by how well they match your resume." },
     ],
   }),
-  component: Jobs;
+  component: Jobs,
 });
 
 function Jobs() {
