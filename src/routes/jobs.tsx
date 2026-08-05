@@ -132,23 +132,19 @@ function Jobs() {
                     )}
                     saved={savedIds.has(job.id)}
                     onToggleSave={() => {
-                      if (savedIds.has(job.id)) {
-                        dispatch({ type: "REMOVE_JOB", payload: job.id });
-                        toast.success("Job removed");
-                      } else {
-                        dispatch({
-                          type: "SAVE_JOB",
-                          payload: {
-                            id: job.id,
-                            title: job.title,
-                            company: job.company,
-                            url: job.url,
-                            location: job.location,
-                            savedAt: new Date().toISOString(),
-                          },
-                        });
-                        toast.success("Job saved");
-                      }
+                      const wasSaved = savedIds.has(job.id);
+                      dispatch({
+                        type: "TOGGLE_SAVED_JOB",
+                        payload: {
+                          id: job.id,
+                          title: job.title,
+                          company: job.company,
+                          url: job.url,
+                          location: job.location,
+                          source: job.source,
+                        },
+                      });
+                      toast.success(wasSaved ? "Job removed" : "Job saved");
                     }}
                   />
                 ))}
