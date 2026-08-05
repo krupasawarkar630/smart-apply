@@ -48,8 +48,10 @@ function Optimizer() {
     setTimeout(() => setFlash((f) => (f === key ? null : f)), 900);
   };
 
+  type RewriteAction = "summary" | "bullets" | "keywords" | "formatting" | "skills";
+
   const runRewrite = async (
-    action: Parameters<typeof rewriteSection>[0] extends never ? never : string,
+    action: RewriteAction,
     content: string,
     apply: (text: string) => void,
     sectionKey: string,
@@ -61,7 +63,7 @@ function Optimizer() {
     try {
       const { text } = await rewrite({
         data: {
-          action: action as "summary",
+          action,
           content,
           context: `Target role: ${resume.jobTitle || "unspecified"}. Skills: ${resume.skills.join(", ")}. Missing keywords: ${(ats?.missing_keywords ?? []).join(", ")}`,
         },
