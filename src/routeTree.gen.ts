@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AtsCheckerRouteImport } from './routes/ats-checker'
+import { Route as BuilderRouteImport } from './routes/builder'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as JobsRouteImport } from './routes/jobs'
 import { Route as OptimizeRouteImport } from './routes/optimize'
@@ -23,6 +24,11 @@ const IndexRoute = IndexRouteImport.update({
 const AtsCheckerRoute = AtsCheckerRouteImport.update({
   id: '/ats-checker',
   path: '/ats-checker',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BuilderRoute = BuilderRouteImport.update({
+  id: '/builder',
+  path: '/builder',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardRoute = DashboardRouteImport.update({
@@ -44,6 +50,7 @@ const OptimizeRoute = OptimizeRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/ats-checker': typeof AtsCheckerRoute
+  '/builder': typeof BuilderRoute
   '/dashboard': typeof DashboardRoute
   '/jobs': typeof JobsRoute
   '/optimize': typeof OptimizeRoute
@@ -51,6 +58,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/ats-checker': typeof AtsCheckerRoute
+  '/builder': typeof BuilderRoute
   '/dashboard': typeof DashboardRoute
   '/jobs': typeof JobsRoute
   '/optimize': typeof OptimizeRoute
@@ -59,21 +67,31 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/ats-checker': typeof AtsCheckerRoute
+  '/builder': typeof BuilderRoute
   '/dashboard': typeof DashboardRoute
   '/jobs': typeof JobsRoute
   '/optimize': typeof OptimizeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/ats-checker' | '/dashboard' | '/jobs' | '/optimize'
+  fullPaths:
+    '/' | '/ats-checker' | '/builder' | '/dashboard' | '/jobs' | '/optimize'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/ats-checker' | '/dashboard' | '/jobs' | '/optimize'
-  id: '__root__' | '/' | '/ats-checker' | '/dashboard' | '/jobs' | '/optimize'
+  to: '/' | '/ats-checker' | '/builder' | '/dashboard' | '/jobs' | '/optimize'
+  id:
+    | '__root__'
+    | '/'
+    | '/ats-checker'
+    | '/builder'
+    | '/dashboard'
+    | '/jobs'
+    | '/optimize'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AtsCheckerRoute: typeof AtsCheckerRoute
+  BuilderRoute: typeof BuilderRoute
   DashboardRoute: typeof DashboardRoute
   JobsRoute: typeof JobsRoute
   OptimizeRoute: typeof OptimizeRoute
@@ -93,6 +111,13 @@ declare module '@tanstack/react-router' {
       path: '/ats-checker'
       fullPath: '/ats-checker'
       preLoaderRoute: typeof AtsCheckerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/builder': {
+      id: '/builder'
+      path: '/builder'
+      fullPath: '/builder'
+      preLoaderRoute: typeof BuilderRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard': {
@@ -122,6 +147,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AtsCheckerRoute: AtsCheckerRoute,
+  BuilderRoute: BuilderRoute,
   DashboardRoute: DashboardRoute,
   JobsRoute: JobsRoute,
   OptimizeRoute: OptimizeRoute,
